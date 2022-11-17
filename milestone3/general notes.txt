@@ -1,0 +1,14 @@
+TODO:
+
+
+Requirements:
+1. User selects a state, city, zipcode. when searchbutton pressed, bussiness in that area is displayed.
+each business has the info: name, address/city, rating (stars), # reviews, average stars of reviews, total checkins. 
+should:
+    query the review table to calculate the number of reviews and average review rating, 
+    query check in table to calculate number of check ins for each business
+    update those attribute values in business table
+
+2. will come back to after first step is done.
+
+

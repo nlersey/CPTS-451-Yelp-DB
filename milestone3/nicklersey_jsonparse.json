@@ -1,0 +1,57 @@
+import json
+
+output_line = ""
+
+
+def parseFile(filename):
+    global output_line
+    # read the JSON file
+    # Assumes that the data files are available in the current directory. If not, you should set the path for the yelp data files.
+    with open(f'./yelp_{filename}.JSON', 'r') as f:
+        outfile = open(f'./{filename}.txt', 'w')
+        line = f.readline().replace("\n", " ")
+        count_line = 0
+        # read each JSON abject and extract data
+        while line:
+            data = json.loads(line)
+            output_line = ""
+            parseData(data, "")
+            outfile.write(output_line + '\n')
+            line = f.readline()
+            count_line += 1
+            if debug and count_line == 22:
+                break
+    print(count_line)
+    outfile.close()
+    f.close()
+
+
+def parseData(thing1, parent):
+    global output_line
+    if not isinstance(thing1, dict):
+        return
+    for key in thing1.keys():
+        child = f"{parent}.{key}"
+        if not isinstance(thing1[key], dict):
+            if str(thing1[key]).find(",") != -1:
+                if isinstance(thing1[key], list):
+                    arr = thing1[key]
+                else:
+                    arr = thing1[key].split(",")
+                for val in arr:
+                    val = str(val).strip()
+                    #print(f"{child} : {val}")
+                    output_line = f"{output_line}{val}\t"
+            else:
+                val = str(thing1[key]).strip()
+                #print(f"{child} : {val}")
+                output_line = f"{output_line}{val}\t"
+
+        parseData(thing1[key], child)
+
+
+debug = True
+parseFile("business")
+parseFile("checkin")
+parseFile("tip")
+parseFile("user")
